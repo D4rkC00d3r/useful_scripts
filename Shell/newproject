@@ -1,0 +1,26 @@
+#!/bin/bash
+read -p "Enter a name for the project: " projectname
+read -p "Enter file extension: " extension
+cd /home/keith/code
+mkdir $projectname
+cd $projectname
+touch README.md
+touch $projectname.$extension
+chmod +x $projectname.$extension
+read -p "Do you want to create a repo on GitLab? (y/n): " answer
+case ${answer:0:1} in
+    y|Y )
+        echo "Creating Git Repo."
+        git init
+        git remote add origin git@git.dev.cnoc.internal:d4rkc00d3r/$projectname.git
+        git add .
+        git commit -m "Initial commit"
+        git push -u origin master
+        echo "Opening project"
+        code .
+    ;;
+    * )
+	echo "Opening project"
+        code .
+    ;;
+esac
